@@ -1,10 +1,11 @@
-const apiKey = '0c41a3bf11bdcbc881699156f45e3c1a';  
+const apiKey = '0c41a3bf11bdcbc881699156f45e3c1a';
 const weatherResult = document.getElementById('weatherResult');
 const searchButton = document.getElementById('searchButton');
 const cityInput = document.getElementById('cityInput');
+const loadingMessage = document.getElementById('loadingMessage');
 
-searchButton.addEventListener('click', function() {
-    const cityName = cityInput.value;
+searchButton.addEventListener('click', () => {
+    const cityName = cityInput.value.trim();
     if (cityName) {
         getWeather(cityName);
     } else {
@@ -12,21 +13,26 @@ searchButton.addEventListener('click', function() {
     }
 });
 
-function getWeather(city) {
+async function getWeather(city) {
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            if (data.cod === '404') {
-                alert('City not found, please try again.');
-                return;
-            }
-            displayWeather(data);
-        })
-        .catch(error => {
-            console.log('Error fetching weather data:', error);
-        });
+    try {
+        loadingMessage.style.display = 'block';
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        if (data.cod === '404') {
+            alert('City not found, please try again.');
+            return;
+        }
+
+        displayWeather(data);
+    } catch (error) {
+        alert('Error fetching weather data. Please check your internet connection.');
+        console.log('Error:', error);
+    } finally {
+        loadingMessage.style.display = 'none';
+    }
 }
 
 function displayWeather(data) {

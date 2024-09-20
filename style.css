@@ -14,11 +14,13 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 350px;
+    width: 100%;
 }
 
 input {
     padding: 10px;
-    width: 200px;
+    width: 70%;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
@@ -31,6 +33,7 @@ button {
     border-radius: 5px;
     cursor: pointer;
     margin-left: 10px;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
@@ -43,4 +46,18 @@ button:hover {
 
 #cityName, #temperature, #description {
     margin: 10px 0;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+    }
+
+    input {
+        width: 60%;
+    }
+
+    button {
+        width: 30%;
+    }
 }
